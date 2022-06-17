@@ -1,0 +1,235 @@
+.grid_container {
+	max-width:1600px;
+	position:relative;
+	margin:5px auto;
+	display:grid;
+	grid-gap:0px;
+	align-items:center;
+	align-content: space-evenly;
+	justify-items:center;
+	justify-content: space-evenly;
+}
+.background { 
+	background-color:#e8eaab;
+}
+.background2 {
+	background-color:rgba(33.00000183284283, 101.00000157952309, 130.0000074505806, 0.4000000059604645);
+}
+.left_text{	
+	position:relative;
+	margin:5px auto;
+	font-family:"Nunito Sans","Helvetica",sans-serif;
+	text-align:left;
+	line-height: 1.5;
+	letter-spacing:0;
+}
+.center_text{	
+	position:relative;
+	margin:5px auto;
+	font-family:"Nunito Sans","Helvetica",sans-serif;
+	text-align:center;
+	line-height: 1.5;
+	letter-spacing:0;
+}
+.right_text{
+	position:relative;
+	margin:5px auto;
+	font-family:"Nunito Sans","Helvetica",sans-serif;
+	text-align:right;
+	line-height: 1.5;
+	letter-spacing:0;
+}
+.title {
+	color:rgb(0, 0, 0); 
+	display:block;
+	font-size:30px;
+}
+.subtitle { 
+	color:rgb(0, 0, 0); 
+	display:block;
+	font-size:21px;
+}
+.bodytext { 
+	color:rgb(0, 0, 0); 
+	display:block;
+	font-size:18px;
+}
+.inline_title {
+	color:rgb(0, 0, 0); 
+	font-size:25px;
+	margin:15px auto
+}
+.inline_subtitle {
+	color:rgb(0, 0, 0); 
+	display:inline-block;
+	font-size:21px;
+	text-align:center;
+}
+.inline_bodytext {
+	color:rgb(0, 0, 0); 
+	display:inline-block;
+	font-size:18px;
+}
+.neighborhood_drop {
+	position:relative;
+	display: block;
+	align-items:center;
+	align-content: space-evenly;
+	justify-items:center;
+	justify-content: space-evenly;
+}
+#qol_map .js-plotly-plot .plotly .modebar {
+    left: 0%;
+}
+#afford_map .js-plotly-plot .plotly .modebar {
+    left: 0%;
+}
+#results_map .js-plotly-plot .plotly .modebar {
+    left: 0%;
+}
+#census_city_plot .js-plotly-plot .plotly .modebar {
+    left: 95%;
+}
+#history_price_city_plot .js-plotly-plot .plotly .modebar {
+    left: 95%;
+}
+#history_quant_city_plot .js-plotly-plot .plotly .modebar {
+    left: 95%;
+}
+#census_neighborhood_plot .js-plotly-plot .plotly .modebar {
+    left: 95%;
+}
+#neighborhood_price_history_plot .js-plotly-plot .plotly .modebar {
+    left: 4%;
+}
+#neighborhood_quant_history_plot .js-plotly-plot .plotly .modebar {
+    left: 4%;
+}
+#nbc_history_plot .js-plotly-plot .plotly .modebar {
+    left: 4%;
+}
+#nbc_0_ind .js-plotly-plot .plotly .modebar {
+    left: 0%;
+}
+#nbc_1_ind .js-plotly-plot .plotly .modebar {
+    left: 0%;
+}
+#nbc_0_age .js-plotly-plot .plotly .modebar {
+    left: 0%;
+}
+#nbc_1_age .js-plotly-plot .plotly .modebar {
+    left: 0%;
+}
+#nbc_0_race .js-plotly-plot .plotly .modebar {
+    left: 0%;
+}
+#nbc_1_race .js-plotly-plot .plotly .modebar {
+    left: 0%;
+}
+#nbc_0_income .js-plotly-plot .plotly .modebar {
+    left: 0%;
+}
+#nbc_1_income .js-plotly-plot .plotly .modebar {
+    left: 0%;
+}
+.grid_ages {
+	display: grid;
+  	grid-template-areas: 
+  		"elem1 . elem2 elem3 .";
+	grid-template-columns: 6fr 1fr 2fr 2fr 1fr;
+	max-width:1600px;
+	margin:5px auto;
+	align-items:center;
+	justify-items:center;
+}
+.elem1 {
+  grid-area: elem1;
+}
+.elem2 {
+  grid-area: elem2;
+}
+.elem3 {
+  grid-area: elem3;
+}
+.header_links_text {
+	position:relative;
+	margin:5px auto;
+	font-family: "Poppins",sans-serif;
+	font-weight: 600;
+	font-size: 12px;
+	letter-spacing: .16667em;
+	text-transform: uppercase;
+	text-align:center;
+	vertical-align: middle;
+	color:rgba(255, 255, 255, 1);
+}
+.links_text {
+	display:block;
+	font-size:18px;
+	color:rgb(17, 160, 179);
+}
+.inline_links {
+	display:inline-block;
+	margin-left: 0.4em;
+	font-size:18px;
+	color:rgb(17, 160, 179);
+}
+.inline_sublinks {
+	display:inline-block;
+	margin-right: 0.4em;
+	font-size:21px;
+	text-align: center;
+	color:rgb(17, 160, 179);
+}
+.dd_elem1 {
+	grid-area: dd_elem1;
+  }
+.dd_elem2 {
+	grid-area: dd_elem2;
+}
+.grid_dd {
+	display: grid;
+  	grid-template-areas: 
+  		"dd_elem1 dd_elem2 .";
+	grid-template-columns: 1fr 1fr 10fr;
+	max-width:1600px;
+	margin:5px auto;
+	align-items:center;
+	justify-items:center;
+}
+.grid_dd2 {
+	display: grid;
+  	grid-template-areas: 
+  		"dd_elem1 dd_elem2 .";
+	grid-template-columns: 3fr 1fr 8fr;
+	max-width:1600px;
+	margin:5px auto;
+	align-items:center;
+	justify-items:center;
+}
+.center_div {
+	text-align: center;
+}
+.ctct_elem1 {
+	grid-area: ctct_elem1;
+}
+.ctct_elem2 {
+	grid-area: ctct_elem2;
+}
+.ctct_elem3 {
+	grid-area: ctct_elem3;
+}
+.ctct_elem4 {
+	grid-area: ctct_elem4;
+}
+.grid_contact {
+	display: grid;
+  	grid-template-areas: 
+  		". ctct_elem1 ctct_elem2 ctct_elem3 ctct_elem4 .";
+	grid-template-columns: 2fr 2fr 2fr 2fr 2fr 2fr;
+	max-width:1600px;
+	margin:5px auto;
+	align-items:center;
+	justify-items:center;
+}
+.circular--square { border-radius: 50%; }
