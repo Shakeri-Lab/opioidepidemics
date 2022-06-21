@@ -57,6 +57,7 @@ layout = html.Div(
                        className = "center_text links_text"),
                 html.Br(),
                 html.Br(),
+                html.H3('NEW SUPPORT !!!!', className = "center_text title")
                 html.H3(cd.text['SUPPORT'], className = "center_text title"),
                 #dcc.Link('Take me back up', href='#', className = "left_text links_text"),
         ])
