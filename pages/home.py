@@ -1,5 +1,6 @@
 from dash import dcc, html, Input, Output, State, callback
 import dash_bootstrap_components as dbc
+import plotly.graph_objects as go
 import srcCode.homeDescs as hd
 import srcCode.dashFuncs as df
 import srcCode.qolFuncs as qf
@@ -20,33 +21,35 @@ layout = html.Div(
                           dd_style={'width': '150px'}, 
                           clearable=False, searchable=False),
     ]),
-    # quality of life map
+    # overdose deaths in VA map
     html.Div(
         [
-            # QoL map
-            dcc.Graph(id='qol_map', 
-                      figure=qf.plotResourcesMap(), 
+            # OD map
+            dcc.Graph(id='odVA_map', 
+                      figure=qf.plotVDHMap(2018, 'Any Opioids'), 
                       config={'displayModeBar': True,
                               "displaylogo": False,
                               'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d']},
                       style={"width": "100%", "height": "550px"}),
-        ]),
+            html.Div([
+                    html.Div([
+                        dcc.Slider(min=2015, max=2018, step=1, value=2018, 
+                                   tooltip={"placement": "bottom", "always_visible": True},
+                                   #marks={1945: "1945", 1950: "", 1955: "1955", 1960: "", 1965: "1965", 1970: "",
+                                   #       1975: "1975", 1980: "", 1985: "1985", 1990: "", 1995: "1995", 2000: "",
+                                   #       2005: "2005", 2010: "", 2015: "2015", 2020: "2020"},
+                                   id="odVA_slider_year")
+                    ], style={"width": "100%"}),
+        ])]),
+
     # divider
     html.Hr(className="center_text title"),
     html.Br(),
     ], className = "background")
 
 @callback(
-   Output(component_id='qol_map', component_property='figure'),
-   [Input(component_id='qol_dropdown', component_property='value')])
-def show_hide_qol_map(currentMap):
+   Output(component_id='odVA_map', component_property='figure'),
+   [Input(component_id='odVA_slider_year', component_property='value')])
+def update_od_map(year):
 
-    optsMap = qd.opts['DD_QOL']
-    if currentMap == optsMap[0]:
-        return qf.plotResourcesMap()
-    elif currentMap == optsMap[1]:
-        return qf.plotSchoolMap()
-    elif currentMap == optsMap[2]:
-        return qf.plotTreeMap()
-    else:
-        return qf.plotResourcesMap()
+    return qf.plotVDHMap(year, 'Any Opioids')
