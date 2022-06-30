@@ -2,11 +2,11 @@
 
 text = {
     "LOADING": "Loading...",
-    "DD_QOL": "View Local"
+    "DD_QOL": "View: "
 }
 
 opts = {
-    "DD_QOL": ['Resources', 'Public Schools', 'Tree Coverage'],
+    "DD_QOL": ['Opioid Overdoses', 'Opioid Prescriptions'],
 }
 
 default = {
