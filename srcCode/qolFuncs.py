@@ -47,7 +47,7 @@ def plotVDHMap(year, drug_class, codes = None):
                     plot_bgcolor="rgba(0,0,0,0)",
                     paper_bgcolor="rgba(0,0,0,0)",
                     autosize=True,
-                    font={'size': 16, 'color': "rgb(255,255,255)"})
+                    font={'size': 16, 'color': "rgb(0,0,0)"})
     #fig.update_traces(hovertemplate=None, hoverinfo = 'skip')
     fig.update_yaxes(scaleanchor="x", scaleratio=1)
 

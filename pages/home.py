@@ -14,61 +14,58 @@ layout = html.Div(
     html.Div([
         df.createTopBar()
     ], className="background"),
-    # Dropdown for quality of life map
-    html.Div([
-        df.createLeftAlignDropdown(qd.text['DD_QOL'], qd.opts['DD_QOL'],
-                          qd.default['DD_QOL'], dd_id='qol_dropdown',
-                          dd_style={'width': '150px'}, 
-                          clearable=False, searchable=False),
-    ]),
-    # overdose deaths in VA map
+    html.Br(),
     html.Div(
         [
             # OD map
-            dcc.Graph(id='odVA_map', 
-                      figure=qf.plotVDHMap(2018, 'Any Opioids'), 
-                      config={'displayModeBar': True,
-                              "displaylogo": False,
-                              'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d']},
-                      style={"width": "100%", "height": "550px"}),
+            dcc.Graph(id='va_map', 
+                    figure=qf.plotVDHMap(2018, 'Any Opioids'), 
+                    config={'displayModeBar': True,
+                            "displaylogo": False,
+                            'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d',
+                                                        'toImage']},
+                    style={"width": "100%", "height": "550px"}),
             html.Div([
-                    html.Div([
-                        dcc.Slider(min=2015, max=2018, step=1, value=2018, 
-                                   tooltip={"placement": "bottom", "always_visible": True},
-                                   #marks={1945: "1945", 1950: "", 1955: "1955", 1960: "", 1965: "1965", 1970: "",
-                                   #       1975: "1975", 1980: "", 1985: "1985", 1990: "", 1995: "1995", 2000: "",
-                                   #       2005: "2005", 2010: "", 2015: "2015", 2020: "2020"},
-                                   id="odVA_slider_year")
-                    ], style={"width": "100%"}),
-        ])]),
-    html.Div(
-        [
-            # OD map
-            dcc.Graph(id='vaDispense_map',
-                      figure=qf.plotCDCMap(2008),
-                      config={'displayModeBar': True,
-                              "displaylogo": False,
-                              'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d']},
-                      style={"width": "100%", "height": "550px"}),
-            html.Div([
-                    html.Div([
-                        dcc.Slider(min=2015, max=2018, step=1, value=2018,
-                                   tooltip={"placement": "bottom", "always_visible": True},
-                                   #marks={1945: "1945", 1950: "", 1955: "1955", 1960: "", 1965: "1965", 1970: "",
-                                   #       1975: "1975", 1980: "", 1985: "1985", 1990: "", 1995: "1995", 2000: "",
-                                   #       2005: "2005", 2010: "", 2015: "2015", 2020: "2020"},
-                                   id="odVA_slider_year")
-                    ], style={"width": "100%"}),
-        ])]),
-
+                html.Div([
+                    dcc.Slider(min=2015, max=2018, step=1, value=2018, 
+                            tooltip={"placement": "bottom", "always_visible": True},
+                            marks={2015: "2015", 2016: "2016", 2017: "2017", 2018: "2018"},
+                            id="odVA_slider_year")
+                    ], id="odVA_slider_div", style={"width": "100%"}),
+                html.Div([
+                    dcc.Slider(min=2006, max=2020, step=1, value=2020,
+                                tooltip={"placement": "bottom", "always_visible": True},
+                                marks={2006: "2006", 2008: "2008", 2010: "2010", 2012: "2012",
+                                        2014: "2014", 2016: "2016", 2018: "2018", 2020: "2020"},
+                                id="dispenseVA_slider_year")
+                    ], id="dispenseVA_slider_div", style={"display": "none"}),
+                # Map type dropdown
+                df.createDropdown(qd.text['DD_QOL'], qd.opts['DD_QOL'],
+                                qd.default['DD_QOL'], dd_id="map_dropdown", 
+                                dd_style={"width": "200px"}, clearable=False, searchable=False),
+                ], className="grid_container", style={"grid-template-columns": "minmax(600px, 4fr) 2fr"}),
+        ], className="subcontainer"),
     # divider
+    html.Br(),
     html.Hr(className="center_text title"),
+    html.Br(),
+    html.Br(),
     html.Br(),
     ], className = "background")
 
 @callback(
-   Output(component_id='odVA_map', component_property='figure'),
-   [Input(component_id='odVA_slider_year', component_property='value')])
-def update_od_map(year):
-
-    return qf.plotVDHMap(year, 'Any Opioids')
+    Output('va_map', 'figure'),
+    Output('odVA_slider_div', 'style'),
+    Output('dispenseVA_slider_div', 'style'),
+    Input('map_dropdown', 'value'),
+    Input('odVA_slider_year', 'value'),
+    Input('dispenseVA_slider_year', 'value'))
+def update_va_plot(viewSelection, odYear, dispenseYear):
+    if viewSelection == qd.opts['DD_QOL'][0]:
+        return (qf.plotVDHMap(odYear, 'Any Opioids'),
+                {'display': 'block', "width": "100%"}, 
+                {'display': 'none'})
+    elif viewSelection == qd.opts['DD_QOL'][1]:
+        return (qf.plotCDCMap(dispenseYear), 
+                {'display': 'none'},
+                {'display': 'block', "width": "100%"})
