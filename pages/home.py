@@ -41,6 +41,25 @@ layout = html.Div(
                                    id="odVA_slider_year")
                     ], style={"width": "100%"}),
         ])]),
+    html.Div(
+        [
+            # OD map
+            dcc.Graph(id='vaDispense_map',
+                      figure=qf.plotCDCMap(2008),
+                      config={'displayModeBar': True,
+                              "displaylogo": False,
+                              'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d']},
+                      style={"width": "100%", "height": "550px"}),
+            html.Div([
+                    html.Div([
+                        dcc.Slider(min=2015, max=2018, step=1, value=2018,
+                                   tooltip={"placement": "bottom", "always_visible": True},
+                                   #marks={1945: "1945", 1950: "", 1955: "1955", 1960: "", 1965: "1965", 1970: "",
+                                   #       1975: "1975", 1980: "", 1985: "1985", 1990: "", 1995: "1995", 2000: "",
+                                   #       2005: "2005", 2010: "", 2015: "2015", 2020: "2020"},
+                                   id="odVA_slider_year")
+                    ], style={"width": "100%"}),
+        ])]),
 
     # divider
     html.Hr(className="center_text title"),
