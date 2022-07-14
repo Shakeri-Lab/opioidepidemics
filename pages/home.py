@@ -51,6 +51,10 @@ layout = html.Div(
     html.Br(),
     html.Br(),
     html.Br(),
+    html.Div(html.P([hd.text['SUPPRESSION']]), className="subcontainer left_text bodytext"),
+    html.Br(),
+    html.Br(),
+    html.Br(),
     ], className = "background")
 
 @callback(

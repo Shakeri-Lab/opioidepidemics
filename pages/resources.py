@@ -17,8 +17,10 @@ layout = html.Div(
                 html.H3(rd.text['MAIN_TITLE'], className = "center_text title"),
                 html.Br(),
                 html.Span(rd.text["QOL_MAP"], className="left_text bodytext"),
-                df.createArrowLink(rd.text['TRANSPORT'], rd.links['TRANSPORT']),
-                df.createArrowLink(rd.text['OPENST'], rd.links['OPENST']),
+                df.createArrowLink(rd.text['OD'], rd.links['OD']),
+                df.createArrowLink(rd.text['RX'], rd.links['RX']),
                 html.Br(),
-        ])
-    ], className = "background")
+                html.Br(),
+                html.Br()
+        ], className = "background container")
+    ], "background")
