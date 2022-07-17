@@ -84,6 +84,9 @@
 #va_dispense_map .js-plotly-plot .plotly .modebar {
     left: 0%;
 }
+#va_treatment_map .js-plotly-plot .plotly .modebar {
+    left: 0%;
+}
 .grid_ages {
 	display: grid;
   	grid-template-areas: 

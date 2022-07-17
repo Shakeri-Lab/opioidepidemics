@@ -40,6 +40,14 @@ layout = html.Div(
                             'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d',
                                                         'toImage']},
                     style={'display': 'none'}),
+            # Treatment map
+            dcc.Graph(id='va_treatment_map', 
+                    figure=qf.plotOfficeMap(), 
+                    config={'displayModeBar': True,
+                            "displaylogo": False,
+                            'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d',
+                                                        'toImage']},
+                    style={'display': 'none'}),
         ], className="subcontainer"),
     html.Br(),
     # VDH data suppression disclaimer
@@ -64,12 +72,20 @@ layout = html.Div(
 @callback(
     Output('va_od_map', 'style'),
     Output('va_dispense_map', 'style'),
+    Output('va_treatment_map', 'style'),
     Input('map_dropdown', 'value'))
 def update_va_plot(viewSelection):
     if viewSelection == qd.opts['DD_QOL'][0]:
         return ({'display': 'block', "width": "100%", 
-                 "height": "650px"}, {'display': 'none'})
+                 "height": "650px"}, {'display': 'none'},
+                {'display': 'none'})
     elif viewSelection == qd.opts['DD_QOL'][1]:
         return ({'display': 'none'},
                 {'display': 'block', "width": "100%", 
-                 "height": "650px"})
+                 "height": "650px"},
+                {'display': 'none'})
+    elif viewSelection == qd.opts['DD_QOL'][2]:
+        return ({'display': 'none'},
+                {'display': 'none'},
+                {'display': 'block', 'width': '100%',
+                 'height': '650px'})

@@ -25,6 +25,9 @@ vaDispense = pd.read_csv('data/vaDispense.csv', dtype={'County FIPS Code': str})
 vaGeo = gpd.read_file('data/vaGeo.geojson')
 # National prescription and OD death data
 nationalData = pd.read_csv('data/nationalData.csv')
+# VA Open Data Portal Office-Based Treatment data
+offices = gpd.read_file("data/officeData.geojson")
+offices = offices[offices['state'] == "VA"]
 
 # Setting correct geoid type
 vaGeo['geoid'] = vaGeo['geoid'].astype(int)
@@ -132,4 +135,34 @@ def plotUSALineplots():
         row=1, col=2
     )
     fig.update_layout(plot_bgcolor = "#e8eaab")
+    return fig
+
+## Returns a plot of the VA office-based treatment facilities for OUD
+## in: data from Virginia Open Data Portal
+## out: figure representing the data
+def plotOfficeMap():
+
+    # offices chloropleth
+    fig = px.scatter_mapbox(offices, 
+                            lat=offices.geometry.y,
+                            lon=offices.geometry.x,
+                            hover_name = "name",
+                            hover_data={"output_location": True},
+                            center={"lat": 37.926868, "lon": -78.024902},
+                            zoom=6)
+    fig.update_layout(mapbox_accesstoken=mapbox_token_public, 
+                    mapbox_style='light',
+                    margin=go.layout.Margin(l=0, r=0,  b=0, t=0),
+                    plot_bgcolor="rgba(0,0,0,0)",
+                    paper_bgcolor="rgba(0,0,0,0)",
+                    autosize=True,
+                    font={'size': 16, 'color': "rgb(0,0,0)"})
+    fig.update_traces(hovertemplate="<br>".join([
+                                    "%{hovertext}",
+                                    "",
+                                    "Address:",
+                                    "%{customdata[0]}"]))
+    #fig.update_traces(hovertemplate=None, hoverinfo = 'skip')
+    fig.update_yaxes(scaleanchor="x", scaleratio=1)
+
     return fig

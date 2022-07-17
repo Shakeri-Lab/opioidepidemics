@@ -56,9 +56,7 @@ layout = html.Div(
                 html.A(cd.text['ISSUES'], href=cd.links['ISSUES'], target="_blank",
                        className = "center_text links_text"),
                 html.Br(),
-                html.Br(),
-                html.H3('NEW SUPPORT !!!!', className = "center_text title"),
-                html.H3(cd.text['SUPPORT'], className = "center_text title"),
+                html.Br()
                 #dcc.Link('Take me back up', href='#', className = "left_text links_text"),
         ])
     ], className = "background")

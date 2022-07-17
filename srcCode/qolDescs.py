@@ -6,7 +6,8 @@ text = {
 }
 
 opts = {
-    "DD_QOL": ['Opioid Overdoses', 'Opioid Prescriptions'],
+    "DD_QOL": ['Opioid Overdoses', 'Opioid Prescriptions',
+               'Treatment Offices'],
 }
 
 default = {
