@@ -16,11 +16,19 @@ layout = html.Div(
         [
                 html.H3(rd.text['MAIN_TITLE'], className = "center_text title"),
                 html.Br(),
-                html.Span(rd.text["QOL_MAP"], className="left_text bodytext"),
-                df.createArrowLink(rd.text['OD'], rd.links['OD']),
-                df.createArrowLink(rd.text['RX'], rd.links['RX']),
+                dbc.Row(
+                    [
+                        dbc.Col([], width=4),
+                        dbc.Col([
+                            html.Span(rd.text["QOL_MAP"], className="left_text bodytext"),
+                            df.createArrowLink(rd.text['OD'], rd.links['OD']),
+                            df.createArrowLink(rd.text['RX'], rd.links['RX']),
+                        ], width = 8),
+                        dbc.Col([], width=4)
+                    ]
+                ),
                 html.Br(),
                 html.Br(),
                 html.Br()
-        ], className = "background container")
-    ], "background")
+        ])
+    ], className = "background")

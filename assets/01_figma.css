@@ -70,7 +70,7 @@
 	display:inline-block;
 	font-size:18px;
 }
-.neighborhood_drop {
+.map_drop {
 	position:relative;
 	display: block;
 	align-items:center;
@@ -78,7 +78,10 @@
 	justify-items:center;
 	justify-content: space-evenly;
 }
-#va_map .js-plotly-plot .plotly .modebar {
+#va_od_map .js-plotly-plot .plotly .modebar {
+    left: 0%;
+}
+#va_dispense_map .js-plotly-plot .plotly .modebar {
     left: 0%;
 }
 .grid_ages {

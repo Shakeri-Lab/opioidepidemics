@@ -17,59 +17,59 @@ layout = html.Div(
     html.Br(),
     html.Div(
         [
+            df.createDropdown(hd.text['DROPDOWN_MAP'], qd.opts['DD_QOL'],
+                              qd.default['DD_QOL'], dd_id="map_dropdown",
+                              dd_style={"width": "200px"}, clearable=False,
+                              searchable=False),
+        ], className="subcontainer map_drop"),
+    html.Div(
+        [
             # OD map
-            dcc.Graph(id='va_map', 
-                    figure=qf.plotVDHMap(2018, 'Any Opioids'), 
+            dcc.Graph(id='va_od_map', 
+                    figure=qf.plotVDHMap('Any Opioids'), 
                     config={'displayModeBar': True,
                             "displaylogo": False,
                             'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d',
                                                         'toImage']},
-                    style={"width": "100%", "height": "550px"}),
-            html.Div([
-                html.Div([
-                    dcc.Slider(min=2015, max=2018, step=1, value=2018, 
-                            tooltip={"placement": "bottom", "always_visible": True},
-                            marks={2015: "2015", 2016: "2016", 2017: "2017", 2018: "2018"},
-                            id="odVA_slider_year")
-                    ], id="odVA_slider_div", style={"width": "100%"}),
-                html.Div([
-                    dcc.Slider(min=2006, max=2020, step=1, value=2020,
-                                tooltip={"placement": "bottom", "always_visible": True},
-                                marks={2006: "2006", 2008: "2008", 2010: "2010", 2012: "2012",
-                                        2014: "2014", 2016: "2016", 2018: "2018", 2020: "2020"},
-                                id="dispenseVA_slider_year")
-                    ], id="dispenseVA_slider_div", style={"display": "none"}),
-                # Map type dropdown
-                df.createDropdown(qd.text['DD_QOL'], qd.opts['DD_QOL'],
-                                qd.default['DD_QOL'], dd_id="map_dropdown", 
-                                dd_style={"width": "200px"}, clearable=False, searchable=False),
-                ], className="grid_container", style={"grid-template-columns": "minmax(600px, 4fr) 2fr"}),
+                    style={"width": "100%", "height": "650px"}),
+            # Dispense map
+            dcc.Graph(id='va_dispense_map', 
+                    figure=qf.plotCDCMap(), 
+                    config={'displayModeBar': True,
+                            "displaylogo": False,
+                            'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d',
+                                                        'toImage']},
+                    style={'display': 'none'}),
         ], className="subcontainer"),
-    # divider
+    html.Br(),
+    # VDH data suppression disclaimer
+    html.Div(html.P([hd.text['SUPPRESSION']]), className="subcontainer left_text bodytext"),
     html.Br(),
     html.Hr(className="center_text title"),
     html.Br(),
-    html.Br(),
-    html.Br(),
-    html.Div(html.P([hd.text['SUPPRESSION']]), className="subcontainer left_text bodytext"),
+    html.Div([
+        # Line plots for national data
+        dcc.Graph(id='national_lineplots', 
+                figure=qf.plotUSALineplots(), 
+                config={'displayModeBar': True,
+                        "displaylogo": False,
+                        'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d']},
+                style={"width": "100%", "height": "650px"}),
+    ], className = "subcontainer"),
     html.Br(),
     html.Br(),
     html.Br(),
     ], className = "background")
 
 @callback(
-    Output('va_map', 'figure'),
-    Output('odVA_slider_div', 'style'),
-    Output('dispenseVA_slider_div', 'style'),
-    Input('map_dropdown', 'value'),
-    Input('odVA_slider_year', 'value'),
-    Input('dispenseVA_slider_year', 'value'))
-def update_va_plot(viewSelection, odYear, dispenseYear):
+    Output('va_od_map', 'style'),
+    Output('va_dispense_map', 'style'),
+    Input('map_dropdown', 'value'))
+def update_va_plot(viewSelection):
     if viewSelection == qd.opts['DD_QOL'][0]:
-        return (qf.plotVDHMap(odYear, 'Any Opioids'),
-                {'display': 'block', "width": "100%"}, 
-                {'display': 'none'})
+        return ({'display': 'block', "width": "100%", 
+                 "height": "650px"}, {'display': 'none'})
     elif viewSelection == qd.opts['DD_QOL'][1]:
-        return (qf.plotCDCMap(dispenseYear), 
-                {'display': 'none'},
-                {'display': 'block', "width": "100%"})
+        return ({'display': 'none'},
+                {'display': 'block', "width": "100%", 
+                 "height": "650px"})
