@@ -8,8 +8,6 @@ import plotly.express as px
 import plotly.graph_objects as go
 import geopandas as gpd
 from plotly.subplots import make_subplots
-from IPython.core.display import display, HTML
-import io
 pd.options.mode.chained_assignment = None
 #from dash import Input, Output, State, dcc, html, callback
 #import dash_bootstrap_components as dbc
