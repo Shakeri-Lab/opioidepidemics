@@ -8,6 +8,9 @@ import plotly.express as px
 import plotly.graph_objects as go
 import geopandas as gpd
 from plotly.subplots import make_subplots
+from IPython.core.display import display, HTML
+import io
+pd.options.mode.chained_assignment = None
 #from dash import Input, Output, State, dcc, html, callback
 #import dash_bootstrap_components as dbc
 
@@ -19,82 +22,15 @@ mapbox_style = "mapbox://styles/evan-tm/cl1ik4lmv003z15ru0ip4isbz"
 
 # VDH OD death data
 vdh = pd.read_csv('data/VDH.csv')
+vdh = vdh[vdh['Death Rate'] != '*']
+vdh['Death Rate'] = vdh['Death Rate'].astype(float)
 # CDC Opioid dispensing data
-vaDispense = pd.read_csv('data/vaDispense.csv', dtype={'County FIPS Code': str})
-# Geography file
-vaGeo = gpd.read_file('data/vaGeo.geojson')
+cdcDispense = pd.read_csv('data/CDC_Dispense.csv')
 # National prescription and OD death data
 nationalData = pd.read_csv('data/nationalData.csv')
 # VA Open Data Portal Office-Based Treatment data
 offices = gpd.read_file("data/officeData.geojson")
 offices = offices[offices['state'] == "VA"]
-
-# Setting correct geoid type
-vaGeo['geoid'] = vaGeo['geoid'].astype(int)
-
-## Returns a plot of the death rates for all opioids in VA
-## in: data from VDH, year to plot, drug class
-## out: figure representing the data
-def plotVDHMap(drug_class, codes = None):
-    plotData = vdh[vdh['Drug Class'] == drug_class].copy()
-    plotData.rename(columns={'Year of Death':'Year'}, inplace=True)
-    if codes:
-        plotData = plotData[plotData['Locality'].isin(codes)]
-    plotData = plotData[plotData['Death Rate'] != '*']
-    plotData['Death Rate'] = plotData['Death Rate'].astype(float)
-    plotData = plotData.sort_values('Year')
-    # vdh chloropleth
-    fig = px.choropleth_mapbox(plotData, 
-                               geojson = vaGeo.set_index('geoid').geometry, 
-                               animation_frame=plotData.Year,
-                               locations = plotData.Locality,
-                               color = plotData['Death Rate'],
-                               center={"lat": 37.926868, "lon": -78.024902},
-                               zoom=6, opacity = 1, 
-                               color_continuous_scale='Oranges',
-                               range_color=[0.0,45.0])
-    fig.update_layout(mapbox_accesstoken=mapbox_token_public, 
-                    mapbox_style='light',
-                    margin=go.layout.Margin(l=0, r=0,  b=0, t=0),
-                    plot_bgcolor="rgba(0,0,0,0)",
-                    paper_bgcolor="rgba(0,0,0,0)",
-                    autosize=True,
-                    font={'size': 16, 'color': "rgb(0,0,0)"})
-    #fig.update_traces(hovertemplate=None, hoverinfo = 'skip')
-    fig.update_yaxes(scaleanchor="x", scaleratio=1)
-    fig["layout"].pop("updatemenus")
-
-    return fig
-
-def plotCDCMap(codes = None):
-    global vaDispense
-
-    if codes:
-        vaDispense = vaDispense[vaDispense['County FIPS Code'].isin(codes)]
-    vaDispense = vaDispense[vaDispense['Opioid Dispensing Rate per 100'] != '–']
-    vaDispense['Opioid Dispensing Rate per 100'] = vaDispense['Opioid Dispensing Rate per 100'].astype(float)
-    # vdh chloropleth
-    fig = px.choropleth_mapbox(vaDispense,
-                               geojson = vaGeo.set_index('geoid').geometry,
-                               animation_frame = vaDispense.Year,
-                               locations = vaDispense['County FIPS Code'],
-                               color = vaDispense['Opioid Dispensing Rate per 100'],
-                               center={"lat": 37.926868, "lon": -78.024902},
-                               zoom=6, opacity = 1,
-                               color_continuous_scale='Blues',
-                               range_color=[0.0,600.0])
-    fig.update_layout(mapbox_accesstoken=mapbox_token_public,
-                    mapbox_style='light',
-                    margin=go.layout.Margin(l=0, r=0,  b=0, t=0),
-                    plot_bgcolor="rgba(0,0,0,0)",
-                    paper_bgcolor="rgba(0,0,0,0)",
-                    autosize=True,
-                    font={'size': 16, 'color': "rgb(0,0,0)"})
-    #fig.update_traces(hovertemplate=None, hoverinfo = 'skip')
-    fig.update_yaxes(scaleanchor="x", scaleratio=1)
-    fig["layout"].pop("updatemenus")
-
-    return fig
 
 
 def plotUSALineplots():
@@ -165,4 +101,60 @@ def plotOfficeMap():
     #fig.update_traces(hovertemplate=None, hoverinfo = 'skip')
     fig.update_yaxes(scaleanchor="x", scaleratio=1)
 
+    return fig
+
+## Returns a plot of the death rates for all opioids in VA
+## in: data from VDH, year to plot, drug class
+## out: figure representing the data
+def plotVDHBar(year, drug_class, codes = None):
+    
+    plotData = vdh.loc[(vdh['Year of Death'] == year) & 
+                       (vdh['Drug Class'] == drug_class)]
+    if codes:
+        plotData = plotData[plotData['Locality'].isin(codes)]
+    # vdh chloropleth
+    fig = px.bar(plotData.sort_values("Death Rate", ascending=True), 
+                 x='Death Rate', y='Locality Name', height = 800)
+    fig.update_layout(xaxis={'side': 'top'}, 
+                    xaxis_title="Death Rate per 100,000 Persons",
+                    xaxis_range=[0,91],
+                    margin=go.layout.Margin(l=0, r=0,  b=0, t=0),
+                    plot_bgcolor="rgba(0,0,0,0)",
+                    paper_bgcolor="rgba(0,0,0,0)",
+                    font={'size': 12, 'color': "rgb(0,0,0)"},
+                    height=len(plotData)*15)
+    fig.update_traces(marker_color='rgb(158,202,225)', 
+                      marker_line_color='rgb(8,48,107)',)
+    
+    return fig
+
+## Returns a plot of the prescription rates for all opioids in VA
+## in: data from CDC, year to plot, drug class
+## out: figure representing the data
+def plotCDCBar(year, state, codes = None):
+    
+    plotData = cdcDispense.loc[(cdcDispense['Year'] == year) & 
+                               (cdcDispense['State'] == state)]
+    plotData['County'] = plotData['County'].str.replace(', ' + state,'')
+    plotData['County'] = plotData['County'].str.replace(r' County', '')
+    plotData['County'] = plotData['County'].str.lower()
+    plotData['County'] = plotData['County'].str.title()
+    if codes:
+        plotData = plotData[plotData['County FIPS Code'].isin(codes)]
+    plotData = plotData[plotData['Opioid Dispensing Rate per 100'] != '–']
+    plotData['Opioid Dispensing Rate per 100'] = plotData['Opioid Dispensing Rate per 100'].astype(float)
+    # CDC bar plot
+    fig = px.bar(plotData.sort_values("Opioid Dispensing Rate per 100", ascending=True), 
+                 x='Opioid Dispensing Rate per 100', y='County')
+    fig.update_layout(xaxis={'side': 'top'}, 
+                    xaxis_title="Opioid Prescription Rate per 100 Persons",
+                    xaxis_range=[0,600],
+                    margin=go.layout.Margin(l=0, r=0,  b=0, t=0),
+                    plot_bgcolor="rgba(0,0,0,0)",
+                    paper_bgcolor="rgba(0,0,0,0)",
+                    font={'size': 12, 'color': "rgb(0,0,0)"},
+                    height=len(plotData)*15)
+    fig.update_traces(marker_color='rgb(158,202,225)', 
+                      marker_line_color='rgb(8,48,107)',)
+    
     return fig
