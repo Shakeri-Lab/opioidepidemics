@@ -9,6 +9,11 @@
 	justify-items:center;
 	justify-content: space-evenly;
 }
+.center {
+	display: flex;
+  	justify-content: center;
+ 	align-items: center;
+}
 .background { 
 	background-color:#e8eaab;
 }
@@ -70,7 +75,7 @@
 	display:inline-block;
 	font-size:18px;
 }
-.map_drop {
+.state_drop {
 	position:relative;
 	display: block;
 	align-items:center;
@@ -78,10 +83,10 @@
 	justify-items:center;
 	justify-content: space-evenly;
 }
-#va_od_map .js-plotly-plot .plotly .modebar {
+#va_od_chart .js-plotly-plot .plotly .modebar {
     left: 0%;
 }
-#va_dispense_map .js-plotly-plot .plotly .modebar {
+#dispense_chart .js-plotly-plot .plotly .modebar {
     left: 0%;
 }
 #va_treatment_map .js-plotly-plot .plotly .modebar {
