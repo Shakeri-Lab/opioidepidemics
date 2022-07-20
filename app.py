@@ -1,6 +1,6 @@
 from dash import Dash, dcc, html, Input, Output, callback
 import dash_bootstrap_components as dbc
-from pages import home, resources, contact
+from pages import home, resources, contact, lisa
 
 external_stylesheets = [dbc.themes.UNITED]
 
@@ -21,6 +21,8 @@ def display_page(pathname):
         return resources.layout
     elif pathname == '/contact':
         return contact.layout
+    elif pathname == '/lisa':
+        return lisa.layout
     else:
         return home.layout
 
