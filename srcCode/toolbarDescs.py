@@ -14,15 +14,10 @@ text = {
 
 opts = {
     "HOME": "Home",
-    "CITY": "Explore the City",
-    "NEIGHBORHOOD": "Explore each Neighborhood",
-    "NBCOMPARE": "Compare the Neighborhoods",
+    "LISA": "Spatial Clustering",
     "RESOURCES": "Resources",
     "CONTACT": "Contact",
     "TOP": "Top",
-    "CENSUS": "Demographic History",
-    "HIST": "Sales History",
-    "SECTOR": "Industries",
 }
 
 default = {

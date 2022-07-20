@@ -94,6 +94,7 @@ def createTopBar():
     return dbc.NavbarSimple(
             children=[
                 dbc.NavItem(dbc.NavLink(tb.opts['HOME'], href="/home", external_link=True)),
+                dbc.NavItem(dbc.NavLink(tb.opts['LISA'], href="/lisa", external_link=True)),
                 dbc.NavItem(dbc.NavLink(tb.opts['RESOURCES'], href="/resources", external_link=True)),
                 dbc.NavItem(dbc.NavLink(tb.opts['CONTACT'], href="/contact", external_link=True)),
             ],

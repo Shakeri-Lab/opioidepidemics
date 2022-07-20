@@ -3,7 +3,8 @@
 text = {
     "LOADING": "Loading...",
     "DD_STATE": "",
-    "DD_OD": ""
+    "DD_OD": "",
+    "DD_LISA": ""
 }
 
 opts = {
@@ -22,7 +23,8 @@ opts = {
     "DD_OD": ["All Drugs", "Any Opioids",
               "Natural, Semi-synthetic, and Synthetic Opioids",
               "Prescription Opioids", "Natural and Semi-synthetic Opioids",
-              "Synthetic Opioids besides Methadone", "Methadone", "Heroin"]
+              "Synthetic Opioids besides Methadone", "Methadone", "Heroin"],
+    "DD_LISA": ["Death Rate", "Prescription Rate"]
 }
 
 states = {
@@ -270,7 +272,8 @@ states = {
 
 default = {
     "DD_STATE": opts['DD_STATE'][46],
-    "DD_OD": opts['DD_OD'][1]
+    "DD_OD": opts['DD_OD'][1],
+    "DD_LISA": opts['DD_LISA'][0]
 }
 
 ttips = {
