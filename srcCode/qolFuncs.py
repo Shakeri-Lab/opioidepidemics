@@ -92,7 +92,9 @@ def plotUSALineplots():
                 line=dict(color='darkgray', width=4)),
         row=1, col=2
     )
-    fig.update_layout(plot_bgcolor = "#e8eaab")
+    fig.update_layout(plot_bgcolor = "#e8eaab", paper_bgcolor="#e8eaab")
+    fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='Black')
+    fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='Black')
     return fig
 
 ## Returns a plot of the VA office-based treatment facilities for OUD
@@ -138,7 +140,7 @@ def plotVDHBar(year, drug_class, codes = None):
     fig = px.bar(plotData.sort_values("Death Rate", ascending=True), 
                  x='Death Rate', y='Locality Name', height = 800)
     fig.update_layout(xaxis={'side': 'top'}, 
-                    xaxis_title="Death Rate per 100,000 Persons",
+                    xaxis_title="Death Rate per 100,000 Persons in VA",
                     xaxis_range=[0,91],
                     margin=go.layout.Margin(l=0, r=0,  b=0, t=0),
                     plot_bgcolor="rgba(0,0,0,0)",
@@ -227,18 +229,24 @@ def getLISAframes(year, target = 'od', drug_class='Any Opioids'):
 def plotMoran(db, target = 'od'):
     if target == 'od':
         fig = px.scatter(db, x='Death_Rate_stdize', y='w_Death_Rate_stdize',
+                 labels={'Death_Rate_stdize': 'Standardized Death Rate', 
+                         'w_Death_Rate_stdize': 'Standardized Spatial Lag of Death Rate'},
                  width=500, height=500, trendline="ols")
-        fig.add_hline(y=0, opacity=0.5)
-        fig.add_vline(x=0, opacity=0.5)
     else:
         fig = px.scatter(db, x='Rx_stdize', y='w_Rx_stdize',
+                 labels={'Rx_stdize': 'Standardized Prescription Rate', 
+                         'w_Rx_stdize': 'Standardized Spatial Lag of Prescription Rate'},
                  width=500, height=500, trendline="ols")
-        fig.add_hline(y=0, opacity=0.5)
-        fig.add_vline(x=0, opacity=0.5)
+    fig.add_hline(y=0, opacity=0.5)
+    fig.add_vline(x=0, opacity=0.5)
+    fig.update_layout(paper_bgcolor="#e8eaab")
     return fig
 
 def plotKDE(lisa):
-    return ff.create_distplot([lisa.Is], group_labels = ['Local Indicators'], show_hist=False)
+    fig = ff.create_distplot([lisa.Is], group_labels = ['Local Indicators'], show_hist=False)
+    fig.update_layout(paper_bgcolor="#e8eaab", 
+                      yaxis_title="Density")
+    return fig
 
 def plotClusters(db, lisa):
     # Set up figure and axes

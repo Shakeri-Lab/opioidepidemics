@@ -20,7 +20,7 @@ layout = html.Div(
                     df.createDropdown(qd.text['DD_OD'], qd.opts['DD_OD'],
                                     qd.default['DD_OD'], dd_id="od_dropdown",
                                     dd_style={"width": "200px"}, clearable=False,
-                                    searchable=False, optionHeight=45),
+                                    searchable=False, optionHeight=50),
                 ]),
             html.Div(
                 [
